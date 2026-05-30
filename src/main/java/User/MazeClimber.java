@@ -62,18 +62,20 @@ public class MazeClimber {
         return true;
     }
 
-    //названия вызовов могут быть изменены для улучшения читаемости позднее - установка флагов для следующего круга прохождения
+
     private void setNewUserChoice(){
+        final int RESTART_ALL = 1, NEW_MAZE = 2, NEW_SOLVER = 3;
+
         switch (handler.getUserChoice()){
-            case 1 -> {
+            case RESTART_ALL -> {
                 mazeNotExist = true;
                 hasNoSolution = true;
             }
-            case 2 -> {
+            case NEW_MAZE -> { 
                 mazeNotExist = true;
                 hasNoSolution = false;
             }
-            case 3 -> {
+            case NEW_SOLVER -> {
                 mazeNotExist = false;
                 hasNoSolution = true;
             }
