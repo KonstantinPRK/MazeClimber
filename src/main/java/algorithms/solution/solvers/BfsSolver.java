@@ -1,12 +1,13 @@
-package solvers;
+package algorithms.solution.solvers;
 
-import climb.Solver;
+import algorithms.solution.Solver;
 import maze.Coordinate;
 import maze.Maze;
 
 import java.util.List;
 
-public class SecondSolver implements Solver {
+public class BfsSolver implements Solver {
+
     @Override
     public List<Coordinate> solve(Maze maze, Coordinate start, Coordinate end) {
         return List.of();

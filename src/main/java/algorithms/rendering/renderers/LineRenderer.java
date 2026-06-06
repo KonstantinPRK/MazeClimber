@@ -1,12 +1,12 @@
-package renderers;
+package algorithms.rendering.renderers;
 
-import climb.Renderer;
+import algorithms.rendering.Renderer;
 import maze.Coordinate;
 import maze.Maze;
 
 import java.util.List;
 
-public class FirstAlgo implements Renderer {
+public class LineRenderer implements Renderer {
     @Override
     public String render(Maze maze) {
         return "";

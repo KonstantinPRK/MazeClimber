@@ -1,26 +1,15 @@
-package User;
+package console;
 
-import java.io.PrintStream;
 import java.util.Scanner;
 
-public class Terminal {
-    PrintStream printer;
-    Scanner scan;
+public class Input {
+    private Scanner scan;
 
-    public Terminal(PrintStream output, Scanner input){
-        this.printer = output;
-        this.scan = input;
+    public Input(Scanner scan) {
+        this.scan = scan;
     }
-
-
-    public void print(String str){
-        printer.println(str);
-    }
-
 
     public int getUserInt(int min, int max){
-        String helperPhrase = "введите число от " + min + " до " + max + " включительно: ";
-        print(helperPhrase);
         return getUserInt();
     }
 
