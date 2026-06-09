@@ -3,24 +3,32 @@ package app.core;
 import app.algorithms.generation.Generator;
 import app.algorithms.rendering.Renderer;
 import app.algorithms.solution.Solver;
+import app.configuration.CurrentSize;
 import org.springframework.stereotype.Component;
 
 @Component
 public class MazeOptions {
-    private Boolean needNewMaze = true, needNewSolver = true, needNewRenderer;
-    private Integer height, width;
+    private Boolean
+            needNewSize = true,
+            needNewGenerator = true,
+            needNewSolver = true,
+            needNewRenderer = true;
+
+    private CurrentSize size;
     private Generator generator;
     private Solver solver;
     private Renderer renderer;
 
-    //только геттеры и сеттеры
-    public boolean isNeedNewMaze() {
-        return needNewMaze;
+    //геттеры и сеттеры условий
+    public boolean isNeedNewSize() {
+        return needNewSize;
     }
-    public void needNewMaze(boolean needNewMaze) {
-        this.needNewMaze = needNewMaze;
+    public void needNewSize(boolean needNewMaze) {
+        this.needNewSize = needNewMaze;
     }
 
+    public boolean isNeedNewGenerator() {return needNewGenerator;}
+    public void needNewGenerator(boolean needNewGenerator) {this.needNewGenerator = needNewGenerator;}
 
     public boolean isNeedNewSolver() {
         return needNewSolver;
@@ -29,38 +37,31 @@ public class MazeOptions {
         this.needNewSolver = needNewSolver;
     }
 
-
-    public Boolean isNeedNewRenderer() {
+    public boolean isNeedNewRenderer() {
         return needNewRenderer;
     }
-    public void needNewRenderer(Boolean needNewRenderer) {
+    public void needNewRenderer(boolean needNewRenderer) {
         this.needNewRenderer = needNewRenderer;
     }
 
 
+    //геттеры и сеттеры размеров
     public int height() {
-        return height;
+        return size.height();
     }
-    public void setHeight(int height) {
-        this.height = height;
-    }
-
-
     public int width() {
-        return width;
+        return size.width();
     }
-    public void setWidth(int width) {
-        this.width = width;
-    }
+    public void setNewSize(CurrentSize size){this.size = size;}
 
 
+    //геттеры и сеттеры алгоритмов
     public Generator generator() {
         return generator;
     }
     public void setGenerator(Generator generator) {
         this.generator = generator;
     }
-
 
     public Solver solver() {
         return solver;
@@ -69,13 +70,10 @@ public class MazeOptions {
         this.solver = solver;
     }
 
-
     public Renderer renderer() {
         return renderer;
     }
     public void setRenderer(Renderer renderer) {
         this.renderer = renderer;
     }
-
-
 }

@@ -4,17 +4,33 @@ import app.algorithms.generation.Generator;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Component
-public class GeneratorCatalog {
+public class GeneratorCatalog implements Catalog<Generator> {
+    private List<String> nameList;
+    private Map<String, Generator> generatorCatalog;
 
+    public GeneratorCatalog(List<Generator> generators){
+        generatorCatalog = generators.stream()
+                            .collect(
+                                    Collectors.toMap(
+                                    generator -> generator.getName(),
+                                    generator -> generator)
+                            );
 
+        nameList = List.copyOf(generatorCatalog.keySet());
+    }
+
+    @Override
     public List<String> showCatalog() {
-        return List.of();
+        return nameList;
     }
 
-
-    public Generator get(String algorithmName) {
-        return null;
+    @Override
+    public Generator getAlgorithm(String algorithmName) {
+        return generatorCatalog.get(algorithmName);
     }
+
 }

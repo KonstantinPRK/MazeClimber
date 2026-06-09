@@ -7,7 +7,7 @@ import app.console.Terminal;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SolverSelector {
+public class SolverSelector implements Selector {
     private final Terminal terminal;
     private final MazeOptions options;
     private final SolverCatalog solverCatalog;
@@ -18,8 +18,14 @@ public class SolverSelector {
         this.solverCatalog = solverCatalog;
     }
 
+    @Override
+    public void setOption(int numOfLaunches) {
+        if (numOfLaunches > 0) isNewOrOldOption();
+        if (options.isNeedNewSolver()) setSolverOption();
+    }
 
-    public void isNewOrOldSolver() {
+
+    public void isNewOrOldOption() {
         terminal.applyCurrentOptions(options.solver());
 
         if (terminal.askToNeedNewSolver()) {
@@ -30,9 +36,9 @@ public class SolverSelector {
     }
 
 
-    public void changeSolver() {
+    public void setSolverOption() {
         String solverName = terminal.requestSolverOption(solverCatalog.showCatalog());
-        Solver solver = solverCatalog.get(solverName);
+        Solver solver = solverCatalog.getAlgorithm(solverName);
         options.setSolver(solver);
     }
 }

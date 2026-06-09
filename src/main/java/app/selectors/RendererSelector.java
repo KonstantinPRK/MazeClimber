@@ -7,7 +7,7 @@ import app.console.Terminal;
 import org.springframework.stereotype.Component;
 
 @Component
-public class RendererSelector {
+public class RendererSelector implements Selector {
     private final Terminal terminal;
     private final MazeOptions options;
     private final RendererCatalog rendererCatalog;
@@ -19,8 +19,14 @@ public class RendererSelector {
         this.rendererCatalog = rendererCatalog;
     }
 
+    @Override
+    public void setOption(int numOfLaunches) {
+        if (numOfLaunches > 0) isNewOrOldOption();
+        if (options.isNeedNewRenderer()) setRendererOption();
+    }
 
-    public void isNewOrOldRenderer() {
+
+    public void isNewOrOldOption() {
         terminal.applyCurrentOptions(options.renderer());
 
         if (terminal.askToNeedNewRenderer()) {
@@ -31,9 +37,9 @@ public class RendererSelector {
     }
 
 
-    public void changeRenderer() {
+    public void setRendererOption() {
         String rendererName = terminal.requestRendererOption(rendererCatalog.showCatalog());
-        Renderer renderer = rendererCatalog.get(rendererName);
+        Renderer renderer = rendererCatalog.getAlgorithm(rendererName);
         options.setRenderer(renderer);
     }
 }

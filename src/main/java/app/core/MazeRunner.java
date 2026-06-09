@@ -4,15 +4,23 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class MazeRunner {
-    private Selector selector;
+    private Selector sizeSelector, generatorSelector, solverSelector, rendererSelector;
     private Climber climber;
 
-    public MazeRunner(Selector selector, Climber climber) {
-        this.selector = selector;
+    public MazeRunner(Selector sizeSelector,
+                      Selector generatorSelector,
+                      Selector solverSelector,
+                      Selector rendererSelector,
+                      Climber climber) {
+        this.sizeSelector = sizeSelector;
+        this.generatorSelector = generatorSelector;
+        this.solverSelector = solverSelector;
+        this.rendererSelector = rendererSelector;
         this.climber = climber;
     }
 
     public void start(){
+        climber.sayHello();
         mazeClimbing();
     }
 
@@ -24,14 +32,15 @@ public class MazeRunner {
             selection(numOfLaunches);
             climbing();
             numOfLaunches++;
-        } while (selector.isContinue());
+        } while (climber.isContinue());
     }
 
 
     private void selection(int numOfLaunches){
-        selector.setMaze(numOfLaunches);
-        selector.setSolution(numOfLaunches);
-        selector.setRenderer(numOfLaunches);
+        sizeSelector.setOption(numOfLaunches);
+        generatorSelector.setOption(numOfLaunches);
+        solverSelector.setOption(numOfLaunches);
+        rendererSelector.setOption(numOfLaunches);
     }
 
 

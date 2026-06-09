@@ -15,7 +15,7 @@ public class PrimaGenerator implements Generator {
 
     @Override
     public String getName() {
-        return "";
+        return this.getClass().getSimpleName() + " - Сбалансированный лабиринт, упорядоченный рандом.";
     }
 
     /*

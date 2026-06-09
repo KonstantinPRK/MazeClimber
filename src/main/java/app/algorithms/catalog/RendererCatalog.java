@@ -1,19 +1,36 @@
 package app.algorithms.catalog;
 
+import app.algorithms.generation.Generator;
 import app.algorithms.rendering.Renderer;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Component
-public class RendererCatalog {
+public class RendererCatalog implements Catalog<Renderer> {
+    private List<String> nameList;
+    private Map<String, Renderer> rendererCatalog;
 
-    public List<String> showCatalog() {
-        return List.of();
+    public RendererCatalog(List<Renderer> renderers){
+        rendererCatalog = renderers.stream()
+                .collect(
+                        Collectors.toMap(
+                                renderer -> renderer.getName(),
+                                renderer -> renderer)
+                );
+
+        nameList = List.copyOf(rendererCatalog.keySet());
     }
 
+    @Override
+    public List<String> showCatalog() {
+        return nameList;
+    }
 
-    public Renderer get(String rendererName) {
-        return null;
+    @Override
+    public Renderer getAlgorithm(String algorithmName) {
+        return rendererCatalog.get(algorithmName);
     }
 }

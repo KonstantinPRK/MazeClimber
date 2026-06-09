@@ -12,6 +12,8 @@ public class Input {
     }
 
     public int getUserInt(int min, int max) {
+        //потом поправлю
+        String USER_LIMITS_TEXT = "\n введите число от " + min + " до " + max + " включительно: ";
         return getUserInt();
     }
 

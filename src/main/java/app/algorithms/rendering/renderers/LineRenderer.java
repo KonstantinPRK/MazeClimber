@@ -3,9 +3,11 @@ package app.algorithms.rendering.renderers;
 import app.algorithms.rendering.Renderer;
 import app.maze.Coordinate;
 import app.maze.Maze;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public class LineRenderer implements Renderer {
     @Override
     public String render(Maze maze) {
@@ -19,7 +21,7 @@ public class LineRenderer implements Renderer {
 
     @Override
     public String getName() {
-        return "";
+        return this.getClass().getSimpleName() + " - линейный отрисовщик";
     }
-    //название класса потом поменяю
+
 }

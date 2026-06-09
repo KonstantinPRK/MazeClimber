@@ -13,6 +13,6 @@ public class RecursiveBacktracker implements Generator {
 
     @Override
     public String getName() {
-        return "";
+        return this.getClass().getSimpleName() + " - Лабиринт-путаница, абсолютный рандом.";
     }
 }
