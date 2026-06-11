@@ -25,7 +25,7 @@ public class SolverSelector implements Selector {
     }
 
 
-    public void isNewOrOldOption() {
+    private void isNewOrOldOption() {
         terminal.applyCurrentOptions(options.solver());
 
         if (terminal.askToNeedNewSolver()) {
@@ -36,7 +36,7 @@ public class SolverSelector implements Selector {
     }
 
 
-    public void setSolverOption() {
+    private void setSolverOption() {
         String solverName = terminal.requestSolverOption(solverCatalog.showCatalog());
         Solver solver = solverCatalog.getAlgorithm(solverName);
         options.setSolver(solver);

@@ -25,7 +25,7 @@ public class SizeSelector implements Selector {
     }
 
 
-    public void isNewOrOldOption() {
+    private void isNewOrOldOption() {
         terminal.applyCurrentOptions(options.height(), options.width());
 
         if (terminal.askToNeedNewSize()) {
@@ -36,7 +36,7 @@ public class SizeSelector implements Selector {
     }
 
 
-    public void setSizeOption() {
+    private void setSizeOption() {
         CurrentSize size = terminal.requestSize(sizeRestrict.minSize(), sizeRestrict.maxSize());
         options.setNewSize(size);
     }

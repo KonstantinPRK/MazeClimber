@@ -26,7 +26,7 @@ public class RendererSelector implements Selector {
     }
 
 
-    public void isNewOrOldOption() {
+    private void isNewOrOldOption() {
         terminal.applyCurrentOptions(options.renderer());
 
         if (terminal.askToNeedNewRenderer()) {
@@ -37,7 +37,7 @@ public class RendererSelector implements Selector {
     }
 
 
-    public void setRendererOption() {
+    private void setRendererOption() {
         String rendererName = terminal.requestRendererOption(rendererCatalog.showCatalog());
         Renderer renderer = rendererCatalog.getAlgorithm(rendererName);
         options.setRenderer(renderer);

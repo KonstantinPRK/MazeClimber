@@ -1,5 +1,6 @@
 package app.core;
 import app.selectors.Selector;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -7,10 +8,10 @@ public class MazeRunner {
     private Selector sizeSelector, generatorSelector, solverSelector, rendererSelector;
     private Climber climber;
 
-    public MazeRunner(Selector sizeSelector,
-                      Selector generatorSelector,
-                      Selector solverSelector,
-                      Selector rendererSelector,
+    public MazeRunner(@Qualifier("sizeSelector") Selector sizeSelector,
+                      @Qualifier("generatorSelector") Selector generatorSelector,
+                      @Qualifier("solverSelector") Selector solverSelector,
+                      @Qualifier("rendererSelector") Selector rendererSelector,
                       Climber climber) {
         this.sizeSelector = sizeSelector;
         this.generatorSelector = generatorSelector;

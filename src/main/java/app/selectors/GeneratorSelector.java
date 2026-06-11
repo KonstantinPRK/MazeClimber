@@ -25,7 +25,7 @@ public class GeneratorSelector implements Selector {
     }
 
 
-    public void isNewOrOldOption(){
+    private void isNewOrOldOption(){
         terminal.applyCurrentOptions(options.generator());
 
         if (terminal.askToNeedNewGenerator()) {
@@ -35,7 +35,7 @@ public class GeneratorSelector implements Selector {
         }
     }
 
-    public void setGenerationOption() {
+    private void setGenerationOption() {
         String generatorName = terminal.requestGenerationOption(generatorCatalog.showCatalog());
         Generator generator = generatorCatalog.getAlgorithm(generatorName);
         options.setGenerator(generator);
