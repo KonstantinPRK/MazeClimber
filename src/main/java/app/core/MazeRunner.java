@@ -5,8 +5,8 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class MazeRunner {
-    private Selector sizeSelector, generatorSelector, solverSelector, rendererSelector;
-    private Climber climber;
+    private final Selector sizeSelector, generatorSelector, solverSelector, rendererSelector;
+    private final Climber climber;
 
     public MazeRunner(@Qualifier("sizeSelector") Selector sizeSelector,
                       @Qualifier("generatorSelector") Selector generatorSelector,
