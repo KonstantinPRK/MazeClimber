@@ -1,8 +1,9 @@
 package app.algorithms.generation;
 
+import app.configuration.CurrentSize;
 import app.maze.Maze;
 
 public interface Generator {
-    Maze generate(int height, int width);
+    Maze generate(CurrentSize size);
     String getName();
 }

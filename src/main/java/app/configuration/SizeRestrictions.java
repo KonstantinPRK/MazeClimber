@@ -4,14 +4,8 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class SizeRestrictions {
-    private final int minSize;
-    private final int maxSize;
-
-    // Значения по умолчанию
-    public SizeRestrictions() {
-        this.minSize = 1;
-        this.maxSize = 100;
-    }
+        private int minSize = 3;
+        private int maxSize = 20;
 
     public int minSize() { return minSize; }
     public int maxSize() { return maxSize; }

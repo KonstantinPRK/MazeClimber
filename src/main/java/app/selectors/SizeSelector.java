@@ -26,7 +26,7 @@ public class SizeSelector implements Selector {
 
 
     private void isNewOrOldOption() {
-        terminal.applyCurrentOptions(options.height(), options.width());
+        terminal.applyCurrentOptions(options.size());
 
         if (terminal.askToNeedNewSize()) {
             options.needNewSize(true);

@@ -46,12 +46,7 @@ public class MazeOptions {
 
 
     //геттеры и сеттеры размеров
-    public int height() {
-        return size.height();
-    }
-    public int width() {
-        return size.width();
-    }
+    public CurrentSize size(){return size; }
     public void setNewSize(CurrentSize size){this.size = size;}
 
 

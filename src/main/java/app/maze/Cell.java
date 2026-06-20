@@ -1,5 +1,6 @@
 package app.maze;
 
-public record Cell(int row, int col, Type type) {
+
+public record Cell(Coordinate coordinate, Type type) {
     public enum Type { WALL, PASSAGE }
 }

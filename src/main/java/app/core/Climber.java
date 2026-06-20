@@ -30,17 +30,20 @@ public class Climber {
 
     protected void createNewMaze() {
             Generator generator = options.generator();
-            maze = generator.generate(options.height(), options.width());
+            maze = generator.generate(options.size());
     }
 
     protected void solveMaze(){
         Solver solver = options.solver();
-        path = solver.solve(maze, null, null);
+        path = solver.solve(maze);
     }
 
     protected void toRenderMazeSolution() {
         Renderer renderer = options.renderer();
-        renderer.render(maze, path);
+        String mazeDraw = renderer.render(maze),
+               solvedMazeDraw = renderer.render(maze, path);
+
+        terminal.print(mazeDraw, solvedMazeDraw);
     }
 
     public boolean isContinue() {

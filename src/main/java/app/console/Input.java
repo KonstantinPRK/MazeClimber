@@ -6,31 +6,34 @@ import java.util.Scanner;
 @Component
 public class Input {
     private final Scanner scan;
+    private final Output output;
 
-    public Input(Scanner scan) {
+    public Input(Scanner scan, Output output) {
         this.scan = scan;
+        this.output = output;
     }
 
     public int getUserInt(int min, int max) {
-        //потом поправлю
-        String USER_LIMITS_TEXT = "\n введите число от " + min + " до " + max + " включительно: ";
-        return getUserInt();
+        while (true) {
+            output.print(output.bold("Введите число от " + min + " до " + max + " включительно: "));
+            int userInt = readInt();
+            if (userInt >= min && userInt <= max) {
+                return userInt;
+            }
+            output.printFramed("Ошибка: число вне диапазона. Попробуйте снова.");
+        }
     }
 
-    public int getUserInt() {
-        boolean success = false;
-        int userInt = -1;
-
-        while (!success) {
+    private int readInt() {
+        while (true) {
             try {
-                userInt = scan.nextInt();
+                int value = scan.nextInt();
                 scan.nextLine();
-                success = true;
+                return value;
             } catch (Exception e) {
-                String print = "Ошибка: это не число. Введите ЦЕЛОЕ число: "; // потом поменяю
+                output.printFramed("Ошибка: введено не целое число. Попробуйте снова.");
                 scan.nextLine();
             }
         }
-        return userInt;
     }
 }
