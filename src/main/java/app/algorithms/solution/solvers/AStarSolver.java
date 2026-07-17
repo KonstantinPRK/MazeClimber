@@ -18,6 +18,7 @@ public class AStarSolver implements Solver {
         return this.getClass().getSimpleName() + " - поиск кратчайшего пути.";
     }
 
+
     @Override
     public List<Coordinate> solve(Maze maze) {
         return solve(maze, maze.getEntrance(), maze.getExit());

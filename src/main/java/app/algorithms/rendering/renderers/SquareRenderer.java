@@ -24,6 +24,7 @@ public class SquareRenderer implements Renderer {
         return this.getClass().getSimpleName() + " - отрисовка квадратами";
     }
 
+
     @Override
     public String render(Maze maze) {
         return render(maze, Collections.emptyList());

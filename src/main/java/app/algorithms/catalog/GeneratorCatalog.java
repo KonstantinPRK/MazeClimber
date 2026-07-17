@@ -24,6 +24,11 @@ public class GeneratorCatalog implements Catalog<Generator> {
     }
 
     @Override
+    public int size(){
+        return nameList.size();
+    }
+
+    @Override
     public List<String> showCatalog() {
         return nameList;
     }

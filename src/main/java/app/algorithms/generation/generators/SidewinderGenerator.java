@@ -26,6 +26,7 @@ public class SidewinderGenerator implements Generator {
         return this.getClass().getSimpleName() + " - Построчный лабиринт, горизонтальные проходы.";
     }
 
+
     @Override
     public Maze generate(CurrentSize size) {
         initGrid(size);

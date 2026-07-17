@@ -12,8 +12,8 @@ import java.util.Scanner;
 public class AppConfig {
 
     @Bean
-    public Input input(Scanner systemInScanner, Output output) {
-        return new Input(systemInScanner, output);
+    public Input input(Scanner systemInScanner) {
+        return new Input(systemInScanner);
     }
 
     @Bean(destroyMethod = "")

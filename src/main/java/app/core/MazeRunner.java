@@ -5,49 +5,51 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class MazeRunner {
+    private final SessionManager sessionManager;
     private final Selector sizeSelector, generatorSelector, solverSelector, rendererSelector;
     private final Climber climber;
+
 
     public MazeRunner(@Qualifier("sizeSelector") Selector sizeSelector,
                       @Qualifier("generatorSelector") Selector generatorSelector,
                       @Qualifier("solverSelector") Selector solverSelector,
                       @Qualifier("rendererSelector") Selector rendererSelector,
-                      Climber climber) {
+                      Climber climber,
+                      SessionManager sessionManager) {
         this.sizeSelector = sizeSelector;
         this.generatorSelector = generatorSelector;
         this.solverSelector = solverSelector;
         this.rendererSelector = rendererSelector;
         this.climber = climber;
+        this.sessionManager = sessionManager;
     }
 
     public void start(){
         climber.sayHello();
-        mazeClimbing();
+        MazeSession session = sessionManager.createSession();
+        mazeClimbing(session);
     }
 
 
-    private void mazeClimbing() {
-        int numOfLaunches = 0;
-
+    private void mazeClimbing(MazeSession session) {
         do{
-            selection(numOfLaunches);
-            climbing();
-            numOfLaunches++;
-        } while (climber.isContinue());
+            selection(session);
+            climbing(session);
+        } while (climber.isContinue(session));
     }
 
 
-    private void selection(int numOfLaunches){
-        sizeSelector.setOption(numOfLaunches);
-        generatorSelector.setOption(numOfLaunches);
-        solverSelector.setOption(numOfLaunches);
-        rendererSelector.setOption(numOfLaunches);
+    private void selection(MazeSession session){
+        sizeSelector.setOption(session);
+        generatorSelector.setOption(session);
+        solverSelector.setOption(session);
+        rendererSelector.setOption(session);
     }
 
 
-    private void climbing() {
-        climber.createNewMaze();
-        climber.solveMaze();
-        climber.toRenderMazeSolution();
+    private void climbing(MazeSession session) {
+        climber.createNewMaze(session);
+        climber.solveMaze(session);
+        climber.toRenderMazeSolution(session);
     }
 }

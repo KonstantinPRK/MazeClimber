@@ -1,43 +1,51 @@
 package app.selectors;
 
 import app.configuration.CurrentSize;
-import app.core.MazeOptions;
+import app.console.Messenger;
+import app.core.MazeSession;
 import app.configuration.SizeRestrictions;
-import app.console.Terminal;
 import org.springframework.stereotype.Component;
 
 @Component
 public class SizeSelector implements Selector {
-    private final Terminal terminal;
-    private final MazeOptions options;
-    private final SizeRestrictions sizeRestrict;
+    private final SizeRestrictions sizeRestrictions;
+    private final Messenger msg;
+    private final String newSize = "Изменить размерность",
+                         currentSize = "Использовать текущую размерность";
+    private boolean isNeedNewOption = true;
 
-    public SizeSelector(Terminal terminal, MazeOptions options, SizeRestrictions sizeRestrict) {
-        this.terminal = terminal;
-        this.options = options;
-        this.sizeRestrict = sizeRestrict;
+
+    public SizeSelector(SizeRestrictions sizeRestrictions, Messenger msg) {
+        this.sizeRestrictions = sizeRestrictions;
+        this.msg = msg;
     }
+
 
     @Override
-    public void setOption(int numOfLaunches){
-        if (numOfLaunches > 0) isNewOrOldOption();
-        if (options.isNeedNewSize()) setSizeOption();
+    public void setOption(MazeSession session){
+        if(session.numOfLaunches() > 0) isNewOrOldOption(session);
+        if(isNeedNewOption) selectOption(session);
+
     }
 
 
-    private void isNewOrOldOption() {
-        terminal.applyCurrentOptions(options.size());
+    private void isNewOrOldOption(MazeSession session){
+        msg.showInformation("Текущие параметры (размер лабиринта): ");
+        msg.applyCurrentOptions("Высота", ": ", String.valueOf(session.size().height()));
+        msg.applyCurrentOptions("Ширина", ": ", String.valueOf(session.size().width()));
 
-        if (terminal.askToNeedNewSize()) {
-            options.needNewSize(true);
-        } else {
-            options.needNewSize(false);
-        }
+        msg.showInformation("Какой размерности должен быть новый лабиринт ?");
+        isNeedNewOption = msg.requestRespond(newSize, currentSize) == newSize;
     }
 
 
-    private void setSizeOption() {
-        CurrentSize size = terminal.requestSize(sizeRestrict.minSize(), sizeRestrict.maxSize());
-        options.setNewSize(size);
+    private void selectOption(MazeSession session) {
+        msg.showInformation("Выберите высоту лабиринта. ");
+        int height = msg.requestRespond(sizeRestrictions.minSize(), sizeRestrictions.maxSize());
+
+        msg.showInformation("Выберите ширину лабиринта. ");
+        int width = msg.requestRespond(sizeRestrictions.minSize(), sizeRestrictions.maxSize());
+
+        session.setSize(new CurrentSize(height, width));
     }
 }

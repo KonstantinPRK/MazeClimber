@@ -1,4 +1,3 @@
 package app.configuration;
 
-public record CurrentSize(int height, int width) {
-}
+public record CurrentSize(int height, int width)  { }

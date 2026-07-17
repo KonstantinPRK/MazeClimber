@@ -1,6 +1,8 @@
 package app.selectors;
 
-import app.core.MazeOptions;
+import app.algorithms.generation.Generator;
+import app.console.Messenger;
+import app.core.MazeSession;
 import app.algorithms.catalog.RendererCatalog;
 import app.algorithms.rendering.Renderer;
 import app.console.Terminal;
@@ -8,38 +10,36 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class RendererSelector implements Selector {
-    private final Terminal terminal;
-    private final MazeOptions options;
     private final RendererCatalog rendererCatalog;
+    private final Messenger msg;
+    private final String newRenderer = "Новый способ зарисовки лабиринта",
+            currentRenderer = "Использовать ранее выбранный алгоритм зарисовки";
+    private boolean isNeedNewOption = true;
 
-
-    public RendererSelector(Terminal terminal, MazeOptions options, RendererCatalog rendererCatalog) {
-        this.terminal = terminal;
-        this.options = options;
+    public RendererSelector(RendererCatalog rendererCatalog, Messenger msg) {
         this.rendererCatalog = rendererCatalog;
+        this.msg = msg;
     }
+
 
     @Override
-    public void setOption(int numOfLaunches) {
-        if (numOfLaunches > 0) isNewOrOldOption();
-        if (options.isNeedNewRenderer()) setRendererOption();
+    public void setOption(MazeSession session) {
+        if(session.numOfLaunches() > 0) isNewOrOldOption(session);
+        if(isNeedNewOption) selectOption(session);
     }
 
 
-    private void isNewOrOldOption() {
-        terminal.applyCurrentOptions(options.renderer());
-
-        if (terminal.askToNeedNewRenderer()) {
-            options.needNewRenderer(true);
-        } else {
-            options.needNewRenderer(false);
-        }
+    private void isNewOrOldOption(MazeSession session) {
+        msg.applyCurrentOptions("Текущие параметры (алгоритм отображения лабиринта)", ": ", session.renderer().getName());
+        msg.showInformation("Как вы желаете продолжить отображение лабиринта?");
+        isNeedNewOption = msg.requestRespond(newRenderer, currentRenderer).equals(newRenderer);
     }
 
 
-    private void setRendererOption() {
-        String rendererName = terminal.requestRendererOption(rendererCatalog.showCatalog());
+    private void selectOption(MazeSession session) {
+        msg.showInformation("Выберите алгоритм отрисовки лабиринта. ");
+        String rendererName = msg.requestRespond(rendererCatalog.showCatalog());
         Renderer renderer = rendererCatalog.getAlgorithm(rendererName);
-        options.setRenderer(renderer);
+        session.setRenderer(renderer);
     }
 }

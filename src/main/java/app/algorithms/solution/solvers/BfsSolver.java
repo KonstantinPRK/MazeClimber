@@ -18,6 +18,7 @@ public class BfsSolver implements Solver {
         return this.getClass().getSimpleName() + " - веерный поиск, перебор множества вариантов.";
     }
 
+
     @Override
     public List<Coordinate> solve(Maze maze) {
         return solve(maze, maze.getEntrance(), maze.getExit());

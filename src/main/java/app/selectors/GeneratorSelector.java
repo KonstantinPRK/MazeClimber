@@ -1,43 +1,44 @@
 package app.selectors;
 
-import app.core.MazeOptions;
+import app.console.Messenger;
+import app.core.MazeSession;
 import app.algorithms.catalog.GeneratorCatalog;
 import app.algorithms.generation.Generator;
-import app.console.Terminal;
 import org.springframework.stereotype.Component;
 
 @Component
 public class GeneratorSelector implements Selector {
-    private final Terminal terminal;
-    private final MazeOptions options;
     private final GeneratorCatalog generatorCatalog;
+    private final Messenger msg;
+    private final String newGenerator = "Выбрать новый генератор",
+                         currentGenerator = "Использовать текущий генератор";
+    private boolean isNeedNewOption = true;
 
-    public GeneratorSelector(Terminal terminal, MazeOptions options, GeneratorCatalog generatorCatalog) {
-        this.terminal = terminal;
-        this.options = options;
+
+    public GeneratorSelector(GeneratorCatalog generatorCatalog, Messenger messenger) {
         this.generatorCatalog = generatorCatalog;
+        this.msg = messenger;
     }
+
 
     @Override
-    public void setOption(int numOfLaunches){
-        if (numOfLaunches > 0) isNewOrOldOption();
-        if (options.isNeedNewGenerator()) setGenerationOption();
+    public void setOption(MazeSession session){
+        if(session.numOfLaunches() > 0) isNewOrOldOption(session);
+        if(isNeedNewOption) selectOption(session);
     }
 
 
-    private void isNewOrOldOption(){
-        terminal.applyCurrentOptions(options.generator());
-
-        if (terminal.askToNeedNewGenerator()) {
-            options.needNewGenerator(true);
-        } else {
-            options.needNewGenerator(false);
-        }
+    private void isNewOrOldOption(MazeSession session) {
+        msg.applyCurrentOptions("Текущие параметры (алгоритм генерации)", ": ", session.generator().getName());
+        msg.showInformation("Каким способом будет сгенерирован новый лабиринт ?");
+        isNeedNewOption = msg.requestRespond(newGenerator, currentGenerator).equals(currentGenerator);
     }
 
-    private void setGenerationOption() {
-        String generatorName = terminal.requestGenerationOption(generatorCatalog.showCatalog());
+
+    private void selectOption(MazeSession session) {
+        msg.showInformation("Выберите алгоритм генерации лабиринта. ");
+        String generatorName = msg.requestRespond(generatorCatalog.showCatalog());
         Generator generator = generatorCatalog.getAlgorithm(generatorName);
-        options.setGenerator(generator);
+        session.setGenerator(generator);
     }
 }

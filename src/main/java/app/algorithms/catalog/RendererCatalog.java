@@ -25,6 +25,11 @@ public class RendererCatalog implements Catalog<Renderer> {
     }
 
     @Override
+    public int size(){
+        return nameList.size();
+    }
+
+    @Override
     public List<String> showCatalog() {
         return nameList;
     }

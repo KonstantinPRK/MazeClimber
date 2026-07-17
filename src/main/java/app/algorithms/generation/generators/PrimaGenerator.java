@@ -27,6 +27,7 @@ public class PrimaGenerator implements Generator {
         return this.getClass().getSimpleName() + " - Сбалансированный лабиринт, упорядоченный рандом.";
     }
 
+
     @Override
     public Maze generate(CurrentSize size) {
         initGrid(size);

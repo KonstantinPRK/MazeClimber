@@ -25,6 +25,11 @@ public class SolverCatalog implements Catalog<Solver>{
     }
 
     @Override
+    public int size(){
+        return nameList.size();
+    }
+
+    @Override
     public List<String> showCatalog() {
         return nameList;
     }

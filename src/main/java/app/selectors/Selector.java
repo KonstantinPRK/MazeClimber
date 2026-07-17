@@ -1,8 +1,9 @@
 package app.selectors;
 
+import app.core.MazeSession;
 import org.springframework.stereotype.Component;
 
 @Component
 public interface Selector {
-    public void setOption(int numOfLaunches);
+    void setOption(MazeSession session);
 }
