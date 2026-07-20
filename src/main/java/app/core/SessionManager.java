@@ -4,33 +4,51 @@ import org.springframework.stereotype.Component;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * Управляет созданием и хранением сессий лабиринта.
+ * Каждая сессия получает уникальный числовой идентификатор.
+ * Использует потокобезопасное хранилище {@link ConcurrentHashMap}.
+ *
+ * @author unknown
+ * @version 1.0
+ */
 @Component
 public class SessionManager {
     private final Map<String, MazeSession> sessions;
-    private int counter = 1;
+    private final AtomicInteger counter = new AtomicInteger(1);
 
 
-    public SessionManager(){
+    /**
+     * Конструктор, инициализирующий пустое хранилище сессий.
+     */
+    public SessionManager() {
         this.sessions = new ConcurrentHashMap<>();
     }
 
 
-    public synchronized MazeSession createSession() {
+    /**
+     * Создаёт новую сессию лабиринта, присваивает ей уникальный
+     * идентификатор (начиная с 1) и сохраняет в хранилище.
+     *
+     * @return созданная сессия {@link MazeSession}
+     */
+    public MazeSession createSession() {
         MazeSession session = new MazeSession();
-        String stringId = String.valueOf(nextId());
+        String stringId = String.valueOf(counter.getAndIncrement());
         sessions.put(stringId, session);
         return session;
     }
 
 
-    private int nextId() {
-        return counter++;
-    }
-
-
-    //неиспользуемый
-    public MazeSession getSession(Integer intSessionID){
+    /**
+     * Возвращает сессию по её числовому идентификатору.
+     *
+     * @param intSessionID числовой идентификатор сессии
+     * @return найденная сессия или {@code null}, если сессия с таким ID не существует
+     */
+    public MazeSession getSession(Integer intSessionID) {
         String id = String.valueOf(intSessionID);
         return sessions.get(id);
     }

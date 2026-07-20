@@ -8,18 +8,16 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class Editor {
-    // Символы для построения рамки
-    private static final char TOP_LEFT_CORNER     = '╔';
-    private static final char TOP_RIGHT_CORNER    = '╗';
-    private static final char BOTTOM_LEFT_CORNER  = '╚';
+    private static final char TOP_LEFT_CORNER = '╔';
+    private static final char TOP_RIGHT_CORNER = '╗';
+    private static final char BOTTOM_LEFT_CORNER = '╚';
     private static final char BOTTOM_RIGHT_CORNER = '╝';
-    private static final char HORIZONTAL_BORDER   = '═';
-    private static final char VERTICAL_BORDER     = '║';
-    private static final char SPACE               = ' ';
-
-    // ANSI-коды для жирного текста
+    private static final char HORIZONTAL_BORDER = '═';
+    private static final char VERTICAL_BORDER = '║';
+    private static final char SPACE = ' ';
     private static final String ANSI_BOLD_START = "\033[1m";
-    private static final String ANSI_BOLD_END   = "\033[0m";
+    private static final String ANSI_BOLD_END = "\033[0m";
+
 
     /**
      * Обрамляет переданное сообщение в рамку из псевдографических символов.
@@ -33,7 +31,6 @@ public class Editor {
      * @param message текст, который нужно поместить в рамку (не должен быть null)
      * @return строка с рамкой, содержащая переданное сообщение
      */
-
     public String frame(String message) {
         int messageLength = message.length();
         String horizontalLine = String.valueOf(HORIZONTAL_BORDER).repeat(messageLength + 2);
@@ -43,14 +40,12 @@ public class Editor {
                 .append(horizontalLine)
                 .append(TOP_RIGHT_CORNER)
                 .append('\n')
-
                 .append(VERTICAL_BORDER)
                 .append(SPACE)
                 .append(message)
                 .append(SPACE)
                 .append(VERTICAL_BORDER)
                 .append('\n')
-
                 .append(BOTTOM_LEFT_CORNER)
                 .append(horizontalLine)
                 .append(BOTTOM_RIGHT_CORNER)

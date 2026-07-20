@@ -11,22 +11,50 @@ import java.util.*;
 
 import static app.maze.Cell.Type.*;
 
+/**
+ * Реализация алгоритма генерации лабиринта Sidewinder (Боковой ветер).
+ * Генерирует построчный лабиринт с преимущественно горизонтальными проходами,
+ * используя случайное закрытие сегментов и вертикальные соединения.
+ *
+ * @author unknown
+ * @version 1.0
+ */
 @Component
 public class SidewinderGenerator implements Generator {
     private final Random random;
     private Cell[][] grid;
     private Coordinate entrance, exit;
 
+
+    /**
+     * Создаёт генератор с заданным источником случайных чисел.
+     *
+     * @param random генератор случайных чисел для выбора элементов
+     */
     public SidewinderGenerator(Random random) {
         this.random = random;
     }
 
+
+    /**
+     * Возвращает имя алгоритма генерации.
+     *
+     * @return строка с именем и кратким описанием
+     */
     @Override
     public String getName() {
         return this.getClass().getSimpleName() + " - Построчный лабиринт, горизонтальные проходы.";
     }
 
 
+    /**
+     * Генерирует лабиринт заданного размера.
+     * Создаёт сетку, строит пути по алгоритму Sidewinder,
+     * затем добавляет вход и выход.
+     *
+     * @param size размеры лабиринта (количество ячеек по высоте и ширине)
+     * @return готовый объект {@link Maze} со входами и выходами
+     */
     @Override
     public Maze generate(CurrentSize size) {
         initGrid(size);
@@ -35,6 +63,12 @@ public class SidewinderGenerator implements Generator {
         return new Maze(grid, entrance, exit);
     }
 
+
+    /**
+     * Инициализирует сетку лабиринта: создаёт все ячейки со стенами.
+     *
+     * @param size размеры лабиринта
+     */
     private void initGrid(CurrentSize size) {
         int rows = 2 * size.height() + 1;
         int cols = 2 * size.width() + 1;
@@ -46,6 +80,14 @@ public class SidewinderGenerator implements Generator {
         }
     }
 
+
+    /**
+     * Проверяет, находится ли ячейка на внешней границе лабиринта, но не в углу.
+     *
+     * @param row строка ячейки
+     * @param col столбец ячейки
+     * @return true, если ячейка находится на границе (не в углу), иначе false
+     */
     private boolean isOuterNonCorner(int row, int col) {
         int maxRow = grid.length - 1;
         int maxCol = grid[0].length - 1;
@@ -54,6 +96,13 @@ public class SidewinderGenerator implements Generator {
         return onEdge && !corner;
     }
 
+
+    /**
+     * Строит проходы в лабиринте по алгоритму Sidewinder.
+     * Проходит по строкам, создавая горизонтальные сегменты и вертикальные соединения.
+     *
+     * @param size размеры лабиринта
+     */
     private void createMaze(CurrentSize size) {
         int height = size.height();
         int width = size.width();
@@ -73,14 +122,30 @@ public class SidewinderGenerator implements Generator {
         }
     }
 
+
+    /**
+     * Устанавливает ячейку по заданным координатам как проход.
+     *
+     * @param row строка ячейки
+     * @param col столбец ячейки
+     */
     private void markAsPassage(int row, int col) {
         grid[row][col] = new Cell(new Coordinate(row, col), PASSAGE);
     }
 
+
+    /**
+     * Завершает построение лабиринта: устанавливает вход и выход.
+     */
     private void finalizeMaze() {
         setGates();
     }
 
+
+    /**
+     * Выбирает случайные внешние ячейки на северной и южной границах
+     * и соединяет их с внутренней частью лабиринта, делая их входом и выходом.
+     */
     private void setGates() {
         List<Coordinate> north = getBorderCoords(0);
         List<Coordinate> south = getBorderCoords(grid.length - 1);
@@ -92,6 +157,14 @@ public class SidewinderGenerator implements Generator {
         exit = connectToInside(south);
     }
 
+
+    /**
+     * Возвращает список координат ячеек на заданной граничной строке,
+     * которые не являются углами.
+     *
+     * @param row строка границы
+     * @return список координат внешних ячеек
+     */
     private List<Coordinate> getBorderCoords(int row) {
         List<Coordinate> coords = new ArrayList<>();
         for (int col = 0; col < grid[0].length; col++) {
@@ -102,6 +175,14 @@ public class SidewinderGenerator implements Generator {
         return coords;
     }
 
+
+    /**
+     * Соединяет случайную внешнюю ячейку из списка с внутренней частью лабиринта,
+     * делая её проходом, и возвращает её координаты.
+     *
+     * @param borderCoords список координат внешних ячеек
+     * @return координаты выбранной ячейки (вход или выход)
+     */
     private Coordinate connectToInside(List<Coordinate> borderCoords) {
         Coordinate chosen = borderCoords.get(random.nextInt(borderCoords.size()));
         int row = chosen.row();

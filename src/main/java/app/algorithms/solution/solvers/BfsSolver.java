@@ -10,20 +10,53 @@ import java.util.*;
 
 import static app.maze.Cell.Type.PASSAGE;
 
+/**
+ * Реализация алгоритма поиска пути с использованием поиска в ширину (BFS).
+ * Обеспечивает нахождение кратчайшего пути в лабиринте путём обхода всех
+ * достижимых ячеек в порядке их удаления от стартовой точки.
+ *
+ * @author unknown
+ * @version 1.0
+ */
 @Component
 public class BfsSolver implements Solver {
 
+    /**
+     * Возвращает имя алгоритма с кратким описанием.
+     *
+     * @return строковое название алгоритма
+     */
     @Override
     public String getName() {
         return this.getClass().getSimpleName() + " - веерный поиск, перебор множества вариантов.";
     }
 
 
+    /**
+     * Находит путь от входа к выходу лабиринта, используя встроенные координаты
+     * входа и выхода из объекта {@link Maze}.
+     *
+     * @param maze лабиринт, в котором ищется путь
+     * @return список координат от входа до выхода (включая обе конечные точки),
+     *         или пустой список, если путь не найден
+     */
     @Override
     public List<Coordinate> solve(Maze maze) {
         return solve(maze, maze.getEntrance(), maze.getExit());
     }
 
+
+    /**
+     * Находит путь между заданными начальной и конечной координатами в лабиринте
+     * с использованием алгоритма BFS.
+     *
+     * @param maze  лабиринт, в котором ищется путь
+     * @param start начальная координата
+     * @param end   конечная координата
+     * @return список координат от start до end (включая обе конечные точки),
+     *         или пустой список, если путь не найден или начальная/конечная ячейки
+     *         не являются проходами
+     */
     @Override
     public List<Coordinate> solve(Maze maze, Coordinate start, Coordinate end) {
         Cell[][] grid = maze.getGrid();
@@ -56,6 +89,15 @@ public class BfsSolver implements Solver {
         return Collections.emptyList();
     }
 
+
+    /**
+     * Возвращает список соседних ячеек (проходов) для заданной позиции.
+     * Соседями считаются ячейки сверху, снизу, слева и справа, если они являются проходами.
+     *
+     * @param position текущая координата
+     * @param grid     сетка лабиринта
+     * @return список координат соседних проходов (не более 4)
+     */
     private List<Coordinate> getNeighbors(Coordinate position, Cell[][] grid) {
         List<Coordinate> neighbors = new ArrayList<>(4);
         int row = position.row();
@@ -73,6 +115,15 @@ public class BfsSolver implements Solver {
         return neighbors;
     }
 
+
+    /**
+     * Восстанавливает путь от конечной точки к начальной, используя массив
+     * предыдущих ячеек, и возвращает его в прямом порядке.
+     *
+     * @param previousCell массив, хранящий для каждой ячейки предыдущую на пути
+     * @param end          конечная координата
+     * @return список координат от начальной до конечной (включая обе)
+     */
     private List<Coordinate> reconstructPath(Coordinate[][] previousCell, Coordinate end) {
         List<Coordinate> path = new ArrayList<>();
         Coordinate current = end;

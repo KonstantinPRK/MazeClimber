@@ -1,6 +1,21 @@
 package app.maze;
 
-
+/**
+ * Запись, представляющая ячейку лабиринта.
+ * Содержит координату ячейки и её тип (стена или проход).
+ *
+ * @param coordinate координата ячейки в сетке лабиринта
+ * @param type       тип ячейки (стена или проход)
+ */
 public record Cell(Coordinate coordinate, Type type) {
-    public enum Type { WALL, PASSAGE }
+
+    /**
+     * Перечисление, определяющее тип ячейки лабиринта.
+     */
+    public enum Type {
+        /** Стена — непроходимая ячейка. */
+        WALL,
+        /** Проход — проходимая ячейка. */
+        PASSAGE
+    }
 }

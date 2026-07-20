@@ -13,23 +13,51 @@ import java.util.Set;
 
 import static app.maze.Cell.Type.*;
 
+/**
+ * Реализация отрисовки лабиринта в виде квадратных блоков.
+ * Стены, проходы и путь решения отображаются различными символами.
+ *
+ * @author unknown
+ * @version 1.0
+ */
 @Component
 public class SquareRenderer implements Renderer {
-    private final String wallDraw  = "██";
+    private final String wallDraw = "██";
     private final String emptyDraw = "░░";
-    private final String pathDraw  = "●░";
+    private final String pathDraw = "●░";
 
+
+    /**
+     * Возвращает имя алгоритма отрисовки.
+     *
+     * @return строка с именем и кратким описанием
+     */
     @Override
     public String getName() {
         return this.getClass().getSimpleName() + " - отрисовка квадратами";
     }
 
 
+    /**
+     * Отрисовывает лабиринт без отображения пути решения.
+     *
+     * @param maze лабиринт для отрисовки
+     * @return строковое представление лабиринта
+     */
     @Override
     public String render(Maze maze) {
         return render(maze, Collections.emptyList());
     }
 
+
+    /**
+     * Отрисовывает лабиринт с отображением пути решения.
+     * Ячейки пути выделяются специальным символом.
+     *
+     * @param maze лабиринт для отрисовки
+     * @param path список координат пути (может быть {@code null} или пустым)
+     * @return строковое представление лабиринта с путём
+     */
     @Override
     public String render(Maze maze, List<Coordinate> path) {
         Cell[][] grid = maze.getGrid();

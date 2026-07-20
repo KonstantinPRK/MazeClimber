@@ -1,3 +1,9 @@
 package app.configuration;
 
-public record CurrentSize(int height, int width)  { }
+/**
+ * Запись, представляющая размеры лабиринта в виде высоты и ширины.
+ *
+ * @param height высота лабиринта (количество строк)
+ * @param width  ширина лабиринта (количество столбцов)
+ */
+public record CurrentSize(int height, int width) { }
